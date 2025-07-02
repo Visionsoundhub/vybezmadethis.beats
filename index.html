@@ -116,9 +116,8 @@
 <div class="info-box" id="aiInfoBox" style="display: none; max-width: 800px; margin: 2rem auto; text-align: center; font-size: 0.95rem; line-height: 1.6; color: #ccc; background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px;">
   <button onclick="toggleAiDescription()" class="btn">Τι είναι το AI Access;</button>
   <div id="aiDescription" style="display:none; margin-top: 1rem;">
-    Τα beats στην κατηγορία <strong>AI Access</strong> είναι δημιουργημένα ή εμπνευσμένα από εργαλεία τεχνητής νοημοσύνης.
-    Η δομή και η μίξη έχει γίνει χειροποίητα από τον <strong>Vybezmadethis</strong> στο <strong>Vision Sound Studio</strong>.
-    <br><br>
+    Τα beats στην κατηγορία <strong>AI Access</strong> είναι δημιουργημένα ή εμπνευσμένα από εργαλεία τεχνητής νοημοσύνης.<br>
+    Η δομή και η μίξη έχει γίνει χειροποίητα από τον <strong>Vybezmadethis</strong> στο <strong>Vision Sound Studio</strong>.<br><br>
     Αυτή η κατηγορία αφορά αποκλειστικά <strong>leasing χρήση</strong>: δηλαδή μπορείς να χρησιμοποιήσεις το beat για προσωπικά ή εμπορικά projects χωρίς να αποκτήσεις την αποκλειστική του κυριότητα. Μπορεί να το χρησιμοποιούν και άλλοι, αλλά η χρήση σου είναι νόμιμη και επιτρεπτή για δημιουργία περιεχομένου.
   </div>
 </div>
@@ -126,8 +125,8 @@
 <div class="info-box" style="max-width: 800px; margin: 2rem auto; text-align: center; font-size: 0.95rem; line-height: 1.6; color: #ccc; background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px;">
   <button onclick="toggleNonAiInfo()" class="btn">Χρήσιμες πληροφορίες</button>
   <div id="nonAiInfo" style="display:none; margin-top: 1rem;">
-    Όλα τα beats (εκτός από την κατηγορία <strong>AI Access</strong>) <strong>δεν διατίθενται με leasing</strong>. Οι αναγραφόμενες τιμές αφορούν την αγορά του beat σε <strong>μορφή MP3 και WAV</strong>.
-    <br><br>
+    Όλα τα beats (εκτός από την κατηγορία <strong>AI Access</strong>) <strong>δεν διατίθενται με leasing</strong>.<br>
+    Οι αναγραφόμενες τιμές αφορούν την αγορά του beat σε <strong>μορφή MP3 και WAV</strong>.<br><br>
     Για παράδοση των <strong>stems</strong>, υπάρχει επιπλέον χρέωση.
   </div>
 </div>
@@ -135,9 +134,8 @@
 <div class="info-box" id="vaultInfoBox" style="display: none; max-width: 800px; margin: 2rem auto; text-align: center; font-size: 0.95rem; line-height: 1.6; color: #ccc; background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px;">
   <button onclick="toggleVaultDescription()" class="btn">Τι είναι τα Vault Beats;</button>
   <div id="vaultDescription" style="display:none; margin-top: 1rem;">
-    Τα <strong>Vault Beats</strong> είναι beats που δεν μπορούν πλέον να επεξεργαστούν περαιτέρω είτε επειδή έχουν χαθεί τα αρχικά projects είτε γιατί ήταν πειραματικά ή πρώιμα drafts.
-    <br><br>
-    Παρότι δεν είναι διαθέσιμα σε μορφή stems, και δεν υπάρχουν projects,
+    Τα <strong>Vault Beats</strong> είναι beats που δεν μπορούν πλέον να επεξεργαστούν περαιτέρω είτε επειδή έχουν χαθεί τα αρχικά projects είτε γιατί ήταν πειραματικά ή πρώιμα drafts.<br><br>
+    Παρότι δεν είναι διαθέσιμα σε μορφή stems, και δεν υπάρχουν projects,<br>
     έχει γίνει επεξεργασία πάνω τους και διατίθενται σε πιο <strong>προσιτή τιμή</strong> και διατηρούν την ενέργεια και το vibe τους για όσους ψάχνουν ιδιαίτερους ήχους με low budget.
   </div>
 </div>
@@ -147,30 +145,41 @@
 <script>
   window.VisionSoundBeats = [
     {
-      title: "Ghostwave",
-      audio: "https://www.example.com/ai_beat.mp3",
-      price: "20€ (Leasing)",
-      sold: false,
-      category: "ai"
-    },
-    {
-      title: "Lo-Fi Chill 01",
-      audio: "https://www.example.com/audio1.mp3",
+      title: "Boom Bap Vault Sample",
+      playerEmbed: `<iframe width='100%' height='166' scrolling='no' frameborder='no' allow='autoplay' src='https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/blackvybez-music/ruins-c-90bpm-hard-rap-type-beat&color=%23333&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true'></iframe>`,
       price: "30€",
       sold: false,
-      category: "lofi"
-    },
-    {
-      title: "Trap Cinematic 02",
-      audio: "https://www.example.com/audio2.mp3",
-      price: "SOLD",
-      sold: true,
-      category: "trap"
+      category: "vault",
+      gumroad: "https://soundscape33.gumroad.com/l/cuplj"
     }
   ];
 
-  window.VisionSoundGrid = document.getElementById("beatGrid");
-  window.VisionSoundFilterButtons = document.querySelectorAll(".filter-btn");
+  const grid = document.getElementById("beatGrid");
+
+  function renderBeats(category) {
+    grid.innerHTML = "";
+    const filtered = category === "all" ? window.VisionSoundBeats : window.VisionSoundBeats.filter(b => b.category === category);
+
+    filtered.forEach((beat, index) => {
+      const card = document.createElement("div");
+      card.className = "beat-card";
+      const contactId = `contact-options-${index}`;
+      card.innerHTML = `
+        <div class="beat-title">${beat.title}</div>
+        ${beat.playerEmbed || `<audio controls src="${beat.audio}"></audio>`}
+        <div class="status ${beat.sold ? 'sold' : ''}">${beat.price}</div>
+        ${!beat.sold ? `
+          <button class="btn" onclick="toggleContactOptions(${index})">Ζήτα το</button>
+          <div class="contact-options" id="${contactId}" style="display:none;">
+            <a href="mailto:info@visionsoundhub.gr?subject=Beat: ${beat.title}&body=Γεια σου, ενδιαφέρομαι για το beat '${beat.title}'. Είναι ακόμα διαθέσιμο.">Email</a>
+            <a href="https://www.instagram.com/visionsoundhub/" target="_blank">Instagram</a>
+            
+          </div>
+        ` : ''}
+      `;
+      grid.appendChild(card);
+    });
+  }
 
   function toggleContactOptions(index) {
     const allOptions = document.querySelectorAll(".contact-options");
@@ -180,40 +189,7 @@
     thisOptions.style.display = isVisible ? "none" : "block";
   }
 
-  function renderBeats(category) {
-    const nonAiBox = document.getElementById("nonAiInfo");
-    if (nonAiBox) nonAiBox.parentElement.style.display = category === "ai" ? "none" : "block";
-    const infoBox = document.getElementById("aiInfoBox");
-    if (infoBox) infoBox.style.display = category === "ai" ? "block" : "none";
-    const vaultBox = document.getElementById("vaultInfoBox");
-    if (vaultBox) vaultBox.style.display = category === "vault" ? "block" : "none";
-    if (!window.VisionSoundGrid) return;
-    window.VisionSoundGrid.innerHTML = "";
-    const filtered = category === "all"
-      ? window.VisionSoundBeats.filter(b => b.category !== "ai")
-      : window.VisionSoundBeats.filter(b => b.category === category);
-
-    filtered.forEach((beat, index) => {
-      const card = document.createElement("div");
-      card.className = "beat-card";
-      const contactId = `contact-options-${index}`;
-      card.innerHTML = `
-        <div class="beat-title">${beat.title}</div>
-        <audio controls src="${beat.audio}"></audio>
-        <div class="status ${beat.sold ? 'sold' : ''}">${beat.price}</div>
-        ${!beat.sold ? `
-          <button class="btn" onclick="toggleContactOptions(${index})">Ζήτα το</button>
-          <div class="contact-options" id="${contactId}" style="display:none;">
-  <a href="mailto:info@visionsoundhub.gr?subject=Beat: ${beat.title}&body=Γεια σου, ενδιαφέρομαι για το beat \"${beat.title}\". Είναι ακόμα διαθέσιμο;">Email</a>
-  <a href="https://www.instagram.com/visionsoundhub/" target="_blank">Instagram</a>
-</div>
-        ` : ''}
-      `;
-      window.VisionSoundGrid.appendChild(card);
-    });
-  }
-
-  window.VisionSoundFilterButtons.forEach(btn => {
+  document.querySelectorAll(".filter-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelector(".filter-btn.active")?.classList.remove("active");
       btn.classList.add("active");
@@ -222,7 +198,8 @@
   });
 
   renderBeats("all");
-function toggleVaultDescription() {
+
+  function toggleVaultDescription() {
     const desc = document.getElementById("vaultDescription");
     desc.style.display = desc.style.display === "none" ? "block" : "none";
   }
@@ -237,3 +214,5 @@ function toggleVaultDescription() {
     desc.style.display = desc.style.display === "none" ? "block" : "none";
   }
 </script>
+</body>
+</html>
