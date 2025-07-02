@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Segoe+UI:wght@700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Beat Gallery</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top, #292929, #0f0f0f 85%), url('https://www.transparenttextures.com/patterns/stardust.png');
+      background-color: #0f0f0f;
+      background-size: cover;
+      background-repeat: repeat;
+      color: #eee;
+    }
+    .category-filter {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem;
+    }
+    .filter-btn {
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      background: linear-gradient(135deg, #7e57c2, #42a5f5);
+      transition: all 0.2s ease-in-out;
+      box-shadow: inset 0 0 0 rgba(255,255,255,0.2), 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .filter-btn[data-category="trap"]:hover { background: linear-gradient(135deg, #ff1744, #ff8a65); }
+    .filter-btn[data-category="boombap"]:hover { background: linear-gradient(135deg, #00bfa5, #4db6ac); }
+    .filter-btn[data-category="latin"]:hover { background: linear-gradient(135deg, #fbc02d, #ff7043); }
+    .filter-btn[data-category="lofi"]:hover { background: linear-gradient(135deg, #5c6bc0, #7986cb); }
+    .filter-btn[data-category="custom"]:hover { background: linear-gradient(135deg, #ffd700, #ffcc33); color: #000; }
+    .filter-btn[data-category="vault"]:hover { background: linear-gradient(135deg, #888888, #bbbbbb); color: #111; }
+    .filter-btn[data-category="ai"]:hover { background: linear-gradient(135deg, #3f51b5, #00e5ff); color: #000; }
+    .filter-btn.active {
+      border: 2px solid #fff;
+    }
+    audio {
+      max-width: 100%;
+      height: 40px;
+    }
+    .btn, .contact-options a {
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 700;
+      white-space: nowrap;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      background: #262626;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      margin-top: 0.5rem;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover, .contact-options a:hover {
+      background: #444;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .beat-title {
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+    .beat-card {
+      background: #1a1a1a;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.4);
+      margin: 1rem;
+    }
+    .status {
+      font-weight: bold;
+      margin: 0.25rem 0;
+    }
+    .status.sold {
+      color: #f55;
+    }
+    .status:not(.sold) {
+      color: #00ff99;
+    }
+  </style>
+</head>
+<body>
+<div class="logo" style="text-align:center; padding: 1rem;">
+  <img src="https://via.placeholder.com/200x60?text=Vision+Sound+Logo" alt="Producer Logo">
+</div>
+
+<div class="category-filter">
+  <button class="filter-btn active" data-category="all">Όλα</button>
+  <button class="filter-btn" data-category="trap">Trap / Drill</button>
+  <button class="filter-btn" data-category="boombap">Rap / Boombap</button>
+  <button class="filter-btn" data-category="latin">Latin Urban / Afro</button>
+  <button class="filter-btn" data-category="lofi">Lofi</button>
+  <button class="filter-btn" data-category="custom">Custom</button>
+  <button class="filter-btn" data-category="vault">Vault Beats</button>
+  <button class="filter-btn" data-category="ai">AI Access</button>
+</div>
+
+<div class="info-box" id="aiInfoBox" style="display: none; max-width: 800px; margin: 2rem auto; text-align: center; font-size: 0.95rem; line-height: 1.6; color: #ccc; background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px;">
+  <button onclick="toggleAiDescription()" class="btn">Τι είναι το AI Access;</button>
+  <div id="aiDescription" style="display:none; margin-top: 1rem;">
+    Τα beats στην κατηγορία <strong>AI Access</strong> είναι δημιουργημένα ή εμπνευσμένα από εργαλεία τεχνητής νοημοσύνης.
+    Η δομή και η μίξη έχει γίνει χειροποίητα από τον <strong>Vybezmadethis</strong> στο <strong>Vision Sound Studio</strong>.
+    <br><br>
+    Αυτή η κατηγορία αφορά αποκλειστικά <strong>leasing χρήση</strong>: δηλαδή μπορείς να χρησιμοποιήσεις το beat για προσωπικά ή εμπορικά projects χωρίς να αποκτήσεις την αποκλειστική του κυριότητα. Μπορεί να το χρησιμοποιούν και άλλοι, αλλά η χρήση σου είναι νόμιμη και επιτρεπτή για δημιουργία περιεχομένου.
+  </div>
+</div>
+
+<div class="info-box" style="max-width: 800px; margin: 2rem auto; text-align: center; font-size: 0.95rem; line-height: 1.6; color: #ccc; background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px;">
+  <span id="nonAiInfo">
+    Όλα τα beats (εκτός από την κατηγορία <strong>AI Access</strong>) <strong>δεν διατίθενται με leasing</strong>.
+    Οι αναγραφόμενες τιμές αφορούν την αγορά του beat σε <strong>μορφή MP3 και WAV</strong>.
+    <br><br>
+    Για παράδοση των <strong>stems</strong>, υπάρχει επιπλέον χρέωση. 
+    Αν κάποιο beat δεν διαθέτει διαθέσιμα stems για οποιονδήποτε λόγο, η τιμή του είναι προσαρμοσμένη προς τα κάτω, ώστε να το αντικατοπτρίζει αυτό.
+  </span>
+</div>
+
+<div class="info-box" id="vaultInfoBox" style="display: none; max-width: 800px; margin: 2rem auto; text-align: center; font-size: 0.95rem; line-height: 1.6; color: #ccc; background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px;">
+  <button onclick="toggleVaultDescription()" class="btn">Τι είναι τα Vault Beats;</button>
+  <div id="vaultDescription" style="display:none; margin-top: 1rem;">
+    Τα <strong>Vault Beats</strong> είναι beats που δεν μπορούν πλέον να επεξεργαστούν περαιτέρω είτε επειδή έχουν χαθεί τα αρχικά projects είτε γιατί ήταν πειραματικά ή πρώιμα drafts.
+    <br><br>
+    Παρότι δεν είναι διαθέσιμα σε μορφή stems, και δεν υπάρχουν projects,
+    έχει γίνει επεξεργασία πάνω τους και διατίθενται σε πιο <strong>προσιτή τιμή</strong> και διατηρούν την ενέργεια και το vibe τους για όσους ψάχνουν ιδιαίτερους ήχους με low budget.
+  </div>
+</div>
+
+<div class="beat-grid" id="beatGrid"></div>
+
+<script>
+  window.VisionSoundBeats = [
+    {
+      title: "Ghostwave",
+      audio: "https://www.example.com/ai_beat.mp3",
+      price: "20€ (Leasing)",
+      sold: false,
+      category: "ai"
+    },
+    {
+      title: "Lo-Fi Chill 01",
+      audio: "https://www.example.com/audio1.mp3",
+      price: "30€",
+      sold: false,
+      category: "lofi"
+    },
+    {
+      title: "Trap Cinematic 02",
+      audio: "https://www.example.com/audio2.mp3",
+      price: "SOLD",
+      sold: true,
+      category: "trap"
+    }
+  ];
+
+  window.VisionSoundGrid = document.getElementById("beatGrid");
+  window.VisionSoundFilterButtons = document.querySelectorAll(".filter-btn");
+
+  function toggleContactOptions(index) {
+    const allOptions = document.querySelectorAll(".contact-options");
+    const thisOptions = document.getElementById(`contact-options-${index}`);
+    const isVisible = thisOptions.style.display === "block";
+    allOptions.forEach(el => el.style.display = "none");
+    thisOptions.style.display = isVisible ? "none" : "block";
+  }
+
+  function renderBeats(category) {
+    const nonAiBox = document.getElementById("nonAiInfo");
+    if (nonAiBox) nonAiBox.parentElement.style.display = category === "ai" ? "none" : "block";
+    const infoBox = document.getElementById("aiInfoBox");
+    if (infoBox) infoBox.style.display = category === "ai" ? "block" : "none";
+    const vaultBox = document.getElementById("vaultInfoBox");
+    if (vaultBox) vaultBox.style.display = category === "vault" ? "block" : "none";
+    if (!window.VisionSoundGrid) return;
+    window.VisionSoundGrid.innerHTML = "";
+    const filtered = category === "all"
+      ? window.VisionSoundBeats.filter(b => b.category !== "ai")
+      : window.VisionSoundBeats.filter(b => b.category === category);
+
+    filtered.forEach((beat, index) => {
+      const card = document.createElement("div");
+      card.className = "beat-card";
+      const contactId = `contact-options-${index}`;
+      card.innerHTML = `
+        <div class="beat-title">${beat.title}</div>
+        <audio controls src="${beat.audio}"></audio>
+        <div class="status ${beat.sold ? 'sold' : ''}">${beat.price}</div>
+        ${!beat.sold ? `
+          <button class="btn" onclick="toggleContactOptions(${index})">Ζήτα το</button>
+          <div class="contact-options" id="${contactId}" style="display:none;">
+  <a href="mailto:info@visionsoundhub.gr?subject=Beat: ${beat.title}&body=Γεια σου, ενδιαφέρομαι για το beat \"${beat.title}\". Είναι ακόμα διαθέσιμο;">Email</a>
+  <a href="https://www.instagram.com/visionsoundhub/" target="_blank">Instagram</a>
+</div>
+        ` : ''}
+      `;
+      window.VisionSoundGrid.appendChild(card);
+    });
+  }
+
+  window.VisionSoundFilterButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelector(".filter-btn.active")?.classList.remove("active");
+      btn.classList.add("active");
+      renderBeats(btn.dataset.category);
+    });
+  });
+
+  renderBeats("all");
+function toggleVaultDescription() {
+    const desc = document.getElementById("vaultDescription");
+    desc.style.display = desc.style.display === "none" ? "block" : "none";
+  }
+
+  function toggleAiDescription() {
+    const desc = document.getElementById("aiDescription");
+    desc.style.display = desc.style.display === "none" ? "block" : "none";
+  }
+</script>
