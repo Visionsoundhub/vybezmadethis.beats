@@ -124,13 +124,12 @@
 </div>
 
 <div class="info-box" style="max-width: 800px; margin: 2rem auto; text-align: center; font-size: 0.95rem; line-height: 1.6; color: #ccc; background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px;">
-  <span id="nonAiInfo">
-    Όλα τα beats (εκτός από την κατηγορία <strong>AI Access</strong>) <strong>δεν διατίθενται με leasing</strong>.
-    Οι αναγραφόμενες τιμές αφορούν την αγορά του beat σε <strong>μορφή MP3 και WAV</strong>.
+  <button onclick="toggleNonAiInfo()" class="btn">Χρήσιμες πληροφορίες</button>
+  <div id="nonAiInfo" style="display:none; margin-top: 1rem;">
+    Όλα τα beats (εκτός από την κατηγορία <strong>AI Access</strong>) <strong>δεν διατίθενται με leasing</strong>. Οι αναγραφόμενες τιμές αφορούν την αγορά του beat σε <strong>μορφή MP3 και WAV</strong>.
     <br><br>
-    Για παράδοση των <strong>stems</strong>, υπάρχει επιπλέον χρέωση. 
-    Αν κάποιο beat δεν διαθέτει διαθέσιμα stems για οποιονδήποτε λόγο, η τιμή του είναι προσαρμοσμένη προς τα κάτω, ώστε να το αντικατοπτρίζει αυτό.
-  </span>
+    Για παράδοση των <strong>stems</strong>, υπάρχει επιπλέον χρέωση.
+  </div>
 </div>
 
 <div class="info-box" id="vaultInfoBox" style="display: none; max-width: 800px; margin: 2rem auto; text-align: center; font-size: 0.95rem; line-height: 1.6; color: #ccc; background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px;">
@@ -230,6 +229,11 @@ function toggleVaultDescription() {
 
   function toggleAiDescription() {
     const desc = document.getElementById("aiDescription");
+    desc.style.display = desc.style.display === "none" ? "block" : "none";
+  }
+
+  function toggleNonAiInfo() {
+    const desc = document.getElementById("nonAiInfo");
     desc.style.display = desc.style.display === "none" ? "block" : "none";
   }
 </script>
