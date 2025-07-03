@@ -23,6 +23,7 @@
       background: radial-gradient(circle at top, #292929, #0f0f0f 85%), url('https://www.transparenttextures.com/patterns/stardust.png');
       background-repeat: repeat;
       color: #eee;
+      padding-bottom: 100px; /* Space for the sticky player */
     }
 
     /* --- Top Bar (Search & Vibe) --- */
@@ -146,116 +147,109 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
 
-    /* --- Beat Cards --- */
-    .beat-grid {
+    /* --- Beat List Layout --- */
+    .beat-list {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
       padding: 1rem;
-      gap: 1.5rem;
+      gap: 0.5rem; /* Reduced gap */
     }
-    .beat-card {
+    .beat-item {
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 12px;
-      padding: 1.5rem;
+      padding: 0.75rem 1.5rem;
       width: 100%;
-      max-width: 480px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-      transition: transform 0.3s ease;
+      max-width: 700px;
+      transition: all 0.3s ease;
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
     }
-    .beat-card:hover {
-      transform: translateY(-5px);
+    .beat-item.is-playing-card {
+        animation: pulse-glow 2s infinite alternate;
     }
-    .beat-title {
-      font-family: 'Segoe UI', sans-serif;
-      font-weight: 700;
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      color: #fff;
-      text-align: left;
+    .beat-item-play-btn {
+        font-size: 1.5rem;
+        color: #ddd;
+        cursor: pointer;
+        transition: color 0.2s ease;
     }
-    
-    .card-main-content {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
+    .beat-item-play-btn:hover {
+        color: #7e57c2;
     }
-    .player-container {
-        flex: 3;
+    .beat-item-title {
+        flex-grow: 1;
+        font-weight: 600;
     }
-    .info-and-actions {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
+    .beat-item-price {
+        font-weight: 700;
+        color: #00ff99;
+    }
+    .beat-item-price.sold {
+        color: #ff5555;
     }
     
-    .beat-player iframe {
-      border: none;
-      width: 100%;
-      height: 120px;
-      border-radius: 8px;
+    /* --- Sticky Player --- */
+    #sticky-player {
+        position: fixed;
+        bottom: -100px;
+        left: 0;
+        width: 100%;
+        background: #181818;
+        border-top: 1px solid #333;
+        padding: 0.5rem 1rem;
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        align-items: center;
+        gap: 1rem;
+        z-index: 2000;
+        transition: all 0.5s ease;
     }
-    .beat-price {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #00ff99;
+    #sticky-player.visible {
+        bottom: 0;
     }
-    .beat-price.sold {
-      color: #ff5555;
-      text-decoration: none;
+    #sticky-player.is-glowing {
+        animation: pulse-glow 2s infinite alternate;
     }
-    .actions-wrapper {
-        position: relative;
+    #sticky-player .track-info {
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
-    .contact-options {
-        position: absolute;
-        bottom: calc(100% + 8px);
-        left: 50%;
-        transform: translateX(-50%);
-        background: #333;
-        border: 1px solid #555;
-        padding: 0.5rem;
-        border-radius: 8px;
-        z-index: 10;
-        display: none;
-        flex-direction: column;
-        gap: 0.5rem;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }
-    .contact-options .btn {
+    #sticky-player .track-title {
+        font-weight: bold;
         margin: 0;
     }
-    
-    /* --- Custom Audio Player --- */
-    .custom-audio-player {
+    #sticky-player .player-controls-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #sticky-player .custom-audio-player {
         display: flex;
         align-items: center;
-        background: #222;
-        border-radius: 50px;
-        padding: 5px 10px;
-        border: 1px solid #444;
+        gap: 10px;
+        width: 100%;
+        max-width: 400px;
     }
-    .play-pause-btn {
+    #sticky-player .play-pause-btn {
         background: linear-gradient(145deg, #d5d5d5, #a0a0a0);
         color: #111;
         border: none;
         border-radius: 50%;
-        width: 35px;
-        height: 35px;
-        font-size: 14px;
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
         cursor: pointer;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-right: 10px;
         flex-shrink: 0;
     }
-    .progress-bar-container {
+    #sticky-player .progress-bar-container {
         flex-grow: 1;
         background: #444;
         border-radius: 10px;
@@ -263,19 +257,20 @@
         cursor: pointer;
         overflow: hidden;
     }
-    .progress-bar {
+    #sticky-player .progress-bar {
         background: linear-gradient(90deg, #7e57c2, #42a5f5);
         width: 0%;
         height: 100%;
         border-radius: 10px;
+        transition: box-shadow 0.3s ease;
     }
-    .time-display {
-        font-size: 0.75rem;
+    #sticky-player .time-display {
+        font-size: 0.85rem;
         color: #aaa;
-        margin-left: 10px;
-        min-width: 40px;
-        text-align: right;
+        min-width: 100px;
+        text-align: center;
     }
+
 
     /* --- Vibe Search Modal --- */
     .vibe-modal-overlay {
@@ -286,7 +281,7 @@
         height: 100%;
         background: rgba(0,0,0,0.8);
         backdrop-filter: blur(10px);
-        display: none; /* Hidden by default */
+        display: none;
         justify-content: center;
         align-items: center;
         z-index: 1000;
@@ -306,8 +301,8 @@
         max-width: 600px;
         max-height: 600px;
         display: flex;
-        justify-content: center; /* Center content vertically */
-        align-items: center; /* Center content horizontally */
+        justify-content: center;
+        align-items: center;
         transform: scale(0.9);
         transition: transform 0.3s ease;
     }
@@ -393,36 +388,38 @@
         }
     }
     
-    /* Mobile-specific adjustments */
+    @keyframes pulse-glow {
+        0% {
+            box-shadow: 0 0 5px rgba(126, 87, 194, 0.2), 0 0 10px rgba(66, 165, 245, 0.2);
+            border-color: rgba(126, 87, 194, 0.5);
+        }
+        50% {
+            box-shadow: 0 0 20px rgba(126, 87, 194, 0.6), 0 0 30px rgba(66, 165, 245, 0.4);
+            border-color: rgba(66, 165, 245, 1);
+        }
+        100% {
+            box-shadow: 0 0 5px rgba(126, 87, 194, 0.2), 0 0 10px rgba(66, 165, 245, 0.2);
+            border-color: rgba(126, 87, 194, 0.5);
+        }
+    }
+
+    @media (max-width: 768px) {
+        #sticky-player {
+            grid-template-columns: 1fr;
+            padding: 0.5rem;
+            gap: 0.5rem;
+        }
+        #sticky-player .track-info {
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        #sticky-player .player-controls-wrapper {
+            order: -1; /* Move player to the top on mobile */
+        }
+    }
     @media (max-width: 600px) {
         .vibe-modal-content {
             padding: 1rem;
-        }
-        .vibe-modal-content h2 {
-            font-size: 1.5rem;
-        }
-        .vibe-modal-content p {
-            font-size: 0.9rem;
-        }
-        .vibe-bubble {
-            padding: 0.6rem 1.2rem;
-            font-size: 0.9rem;
-        }
-        .vibe-modal-close {
-            top: 15px;
-            right: 15px;
-            width: 35px;
-            height: 35px;
-            font-size: 2rem;
-        }
-        .card-main-content {
-            flex-direction: column;
-        }
-        .info-and-actions {
-            width: 100%;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
         }
     }
 
@@ -491,7 +488,26 @@
 
 
 <!-- This is where the beats will be rendered -->
-<div class="beat-grid" id="beatGrid"></div>
+<div class="beat-list" id="beatList"></div>
+
+<!-- Sticky Player -->
+<div id="sticky-player">
+    <div class="track-info">
+        <p class="track-title" id="sticky-player-title">Επίλεξε ένα beat</p>
+    </div>
+    <div class="player-controls-wrapper">
+        <div class="custom-audio-player" id="main-player">
+            <button class="play-pause-btn"><i class="fas fa-play"></i></button>
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="time-display">0:00 / 0:00</div>
+        </div>
+    </div>
+    <div class="player-actions"></div> <!-- Empty div for balance -->
+    <audio id="main-audio-element" preload="metadata"></audio>
+</div>
+
 
 <script>
   // --- ΔΕΔΟΜΕΝΑ ΓΙΑ ΤΑ BEATS ΣΟΥ ---
@@ -499,74 +515,63 @@
     {
       id: 5,
       title: 'Marios Beat (Custom Sample)',
-      playerType: 'audio',
       audioSrc: 'https://github.com/Visionsoundhub/vybezmadethis.beats/raw/refs/heads/main/Marios%20beat%20extended%2099BPM%20Eminor.mp3',
-      price: null, // No price for custom samples
-      stemsPrice: null,
+      price: null,
       status: 'available',
       category: 'custom',
-      licenseType: 'exclusive',
       tags: ['custom', 'melodic', 'emotional', 'sad']
     },
     {
       id: 3,
       title: 'AI Experiment #1',
-      playerType: 'audio',
-      audioSrc: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', // Placeholder MP3
+      audioSrc: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
       price: '15€',
-      stemsPrice: null,
       status: 'available',
       category: 'ai',
-      licenseType: 'leasing',
       tags: ['experimental', 'electronic', 'future']
     },
      {
       id: 4,
       title: 'Old Vault Sketch',
-      playerType: 'audio',
-      audioSrc: '', // No audio source for this example
+      audioSrc: '',
       price: '30€',
-      stemsPrice: null,
       status: 'sold',
       category: 'vault',
-      licenseType: 'exclusive',
       tags: ['raw', 'draft', 'lofi-sketch']
     },
     {
       id: 6,
       title: 'Fire Bars',
-      playerType: 'audio',
       audioSrc: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
       price: '80€',
-      stemsPrice: '20€',
       status: 'available',
       category: 'trap',
-      licenseType: 'exclusive',
       tags: ['aggressive', 'hard', 'drill']
     },
     {
       id: 7,
       title: 'Love Sunset',
-      playerType: 'audio',
       audioSrc: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
       price: '80€',
-      stemsPrice: '20€',
       status: 'available',
       category: 'lofi',
-      licenseType: 'exclusive',
       tags: ['love', 'romantic', 'smooth', 'chill']
     }
   ];
 
-  // --- CORE LOGIC ---
-
-  const beatGrid = document.getElementById('beatGrid');
+  // --- GLOBAL PLAYER STATE ---
+  const beatListEl = document.getElementById('beatList');
   const searchInput = document.getElementById('search-input');
-  let currentlyPlayingAudio = null;
+  const mainAudio = document.getElementById('main-audio-element');
+  const stickyPlayer = document.getElementById('sticky-player');
+  const stickyPlayerTitle = document.getElementById('sticky-player-title');
+  let currentPlaylist = [];
+  let currentTrackIndex = -1;
 
+  // --- RENDER LOGIC ---
   function renderBeats(filter) {
-    if (!beatGrid) return;
-    beatGrid.innerHTML = '';
+    if (!beatListEl) return;
+    beatListEl.innerHTML = '';
 
     let filteredBeats = beatsData;
 
@@ -587,135 +592,136 @@
             beat.tags.some(tag => filter.value.includes(tag))
         );
     }
+    
+    currentPlaylist = filteredBeats; // Update the global playlist
 
     if (filteredBeats.length === 0) {
-        beatGrid.innerHTML = '<p style="color: #888;">Δεν βρέθηκαν beats που να ταιριάζουν με την αναζήτησή σας.</p>';
+        beatListEl.innerHTML = '<p style="color: #888;">Δεν βρέθηκαν beats που να ταιριάζουν με την αναζήτησή σας.</p>';
         return;
     }
 
-    filteredBeats.forEach(beat => {
-      const card = document.createElement('div');
-      card.className = 'beat-card';
+    filteredBeats.forEach((beat, index) => {
+      const item = document.createElement('div');
+      item.className = 'beat-item';
+      item.dataset.beatId = beat.id;
 
-      let playerHtml = '';
-      if (beat.playerType === 'soundcloud' && beat.audioSrc) {
-        playerHtml = `<div class="player-container"><iframe src="${beat.audioSrc}" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>`;
-      } else if (beat.playerType === 'audio' && beat.audioSrc) {
-        playerHtml = `
-          <div class="player-container custom-audio-player" id="player-${beat.id}">
-            <button class="play-pause-btn"><i class="fas fa-play"></i></button>
-            <div class="progress-bar-container">
-              <div class="progress-bar"></div>
-            </div>
-            <div class="time-display">0:00</div>
-            <audio class="audio-element" src="${beat.audioSrc}" preload="metadata"></audio>
-          </div>
-        `;
-      } else {
-        playerHtml = `<div class="player-container"><p style="color: #888; font-size: 0.8rem;">Το Preview δεν είναι διαθέσιμο</p></div>`;
-      }
+      const priceHtml = beat.price ? `<div class="beat-item-price ${beat.status === 'sold' ? 'sold' : ''}">${beat.status === 'sold' ? 'SOLD' : beat.price}</div>` : '';
 
-      const priceHtml = beat.price ? `
-        <div class="beat-price ${beat.status === 'sold' ? 'sold' : ''}">
-            ${beat.status === 'sold' ? 'SOLD' : beat.price}
-        </div>` : '';
-
-      card.innerHTML = `
-        <div class="beat-title">${beat.title}</div>
-        <div class="card-main-content">
-            ${playerHtml}
-            <div class="info-and-actions">
-                ${priceHtml}
-                ${beat.status !== 'sold' ? `
-                    <div class="actions-wrapper">
-                        <button class="btn" onclick="toggleContactOptions(${beat.id})">Ζήτα το</button>
-                        <div class="contact-options" id="contact-options-${beat.id}">
-                          <a href="mailto:studiovisionsound@gmail.com?subject=Beat Inquiry: ${beat.title}" class="btn">Email</a>
-                          <a href="https://www.instagram.com/visionsoundhub.gr?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="btn">Instagram</a>
-                        </div>
-                    </div>
-                ` : ''}
-            </div>
-        </div>
+      item.innerHTML = `
+        <i class="fas fa-play beat-item-play-btn" onclick="handleTracklistClick(${index})"></i>
+        <div class="beat-item-title">${beat.title}</div>
+        ${priceHtml}
+        <button class="btn" onclick="event.stopPropagation(); showContactInfo('${beat.title}')">Ζήτα το</button>
       `;
-      beatGrid.appendChild(card);
+      beatListEl.appendChild(item);
     });
+    updatePlayingUI();
+  }
+
+  // --- PLAYER LOGIC ---
+  function handleTracklistClick(index) {
+    const track = currentPlaylist[index];
+    if (!track) return;
     
-    setupCustomPlayers();
+    if (currentTrackIndex === index) {
+        if (mainAudio.paused) {
+            mainAudio.play();
+        } else {
+            mainAudio.pause();
+        }
+    } else {
+        playTrack(index);
+    }
+  }
+
+  function playTrack(index) {
+    currentTrackIndex = index;
+    const track = currentPlaylist[currentTrackIndex];
+    if (!track || !track.audioSrc) return;
+    
+    mainAudio.src = track.audioSrc;
+    mainAudio.play();
+    stickyPlayerTitle.textContent = track.title;
+    stickyPlayer.classList.add('visible');
+  }
+
+  function setupStickyPlayer() {
+    const player = document.getElementById('main-player');
+    const playPauseBtn = player.querySelector('.play-pause-btn i');
+    const progressBar = player.querySelector('.progress-bar');
+    const progressBarContainer = player.querySelector('.progress-bar-container');
+    const timeDisplay = player.querySelector('.time-display');
+
+    function formatTime(seconds) {
+        if (isNaN(seconds) || seconds < 0) return "0:00";
+        const minutes = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    player.querySelector('.play-pause-btn').addEventListener('click', () => {
+        if (mainAudio.paused) {
+            mainAudio.play();
+        } else {
+            mainAudio.pause();
+        }
+    });
+
+    mainAudio.addEventListener('play', () => {
+        playPauseBtn.className = 'fas fa-pause';
+        updatePlayingUI();
+    });
+    mainAudio.addEventListener('pause', () => {
+        playPauseBtn.className = 'fas fa-play';
+        updatePlayingUI();
+    });
+    mainAudio.addEventListener('ended', () => {
+        // Optional: play next track
+    });
+    mainAudio.addEventListener('timeupdate', () => {
+        const { currentTime, duration } = mainAudio;
+        if (duration) {
+            progressBar.style.width = `${(currentTime / duration) * 100}%`;
+            timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+        }
+    });
+    mainAudio.addEventListener('loadedmetadata', () => {
+        if (mainAudio.duration) {
+            timeDisplay.textContent = `0:00 / ${formatTime(mainAudio.duration)}`;
+        }
+    });
+    progressBarContainer.addEventListener('click', (e) => {
+        const width = progressBarContainer.clientWidth;
+        const clickX = e.offsetX;
+        if (mainAudio.duration) {
+            mainAudio.currentTime = (clickX / width) * mainAudio.duration;
+        }
+    });
   }
   
-  function setupCustomPlayers() {
-    document.querySelectorAll('.custom-audio-player').forEach(player => {
-        const audio = player.querySelector('.audio-element');
-        const playPauseBtn = player.querySelector('.play-pause-btn');
-        const playIcon = playPauseBtn.querySelector('i');
-        const progressBar = player.querySelector('.progress-bar');
-        const progressBarContainer = player.querySelector('.progress-bar-container');
-        const timeDisplay = player.querySelector('.time-display');
-
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-        }
-
-        playPauseBtn.addEventListener('click', () => {
-            const isPlaying = audio.currentTime > 0 && !audio.paused && !audio.ended;
-            if (isPlaying) {
-                audio.pause();
-            } else {
-                if (currentlyPlayingAudio && currentlyPlayingAudio !== audio) {
-                    currentlyPlayingAudio.pause();
-                }
-                currentlyPlayingAudio = audio;
-                audio.play();
-            }
-        });
-
-        audio.addEventListener('play', () => {
-            playIcon.className = 'fas fa-pause';
-        });
-
-        audio.addEventListener('pause', () => {
-            playIcon.className = 'fas fa-play';
-        });
-
-        audio.addEventListener('timeupdate', () => {
-            const { currentTime, duration } = audio;
-            const progressPercent = (currentTime / duration) * 100;
-            progressBar.style.width = `${progressPercent}%`;
-            if (duration) {
-                timeDisplay.textContent = `${formatTime(currentTime)}`;
-            }
-        });
-        
-        audio.addEventListener('loadedmetadata', () => {
-             if (audio.duration) {
-                timeDisplay.textContent = `0:00`;
-            }
-        });
-
-        progressBarContainer.addEventListener('click', (e) => {
-            const width = progressBarContainer.clientWidth;
-            const clickX = e.offsetX;
-            const duration = audio.duration;
-            audio.currentTime = (clickX / width) * duration;
-        });
-    });
-  }
-
-  function toggleContactOptions(beatId) {
-      const currentOptions = document.getElementById(`contact-options-${beatId}`);
-      if (!currentOptions) return;
-      const isVisible = currentOptions.style.display === 'flex';
-      document.querySelectorAll('.contact-options').forEach(el => {
-          el.style.display = 'none';
+  function updatePlayingUI() {
+      document.querySelectorAll('.beat-item').forEach(item => {
+          item.classList.remove('is-playing-card');
+          const playBtn = item.querySelector('.beat-item-play-btn');
+          if (playBtn) playBtn.className = 'fas fa-play beat-item-play-btn';
       });
-      currentOptions.style.display = isVisible ? 'none' : 'flex';
+
+      if (!mainAudio.paused && currentTrackIndex > -1 && currentPlaylist[currentTrackIndex]) {
+          const playingBeat = currentPlaylist[currentTrackIndex];
+          const currentItem = document.querySelector(`.beat-item[data-beat-id='${playingBeat.id}']`);
+          if (currentItem) {
+              currentItem.classList.add('is-playing-card');
+              const playBtn = currentItem.querySelector('.beat-item-play-btn');
+              if(playBtn) playBtn.className = 'fas fa-pause beat-item-play-btn';
+          }
+      }
+  }
+  
+  function showContactInfo(title) {
+      alert(`Για πληροφορίες σχετικά με το "${title}", στείλτε email στο studiovisionsound@gmail.com ή DM στο Instagram.`);
   }
 
-  // --- INITIALIZATION & EVENT LISTENERS ---
-
+  // --- TOGGLE FUNCTIONS FOR INFO BOXES ---
   function toggleAiDescription() {
     const desc = document.getElementById("aiDescription");
     if (desc) desc.style.display = desc.style.display === "none" ? "block" : "none";
@@ -729,135 +735,140 @@
     if (desc) desc.style.display = desc.style.display === "none" ? "block" : "none";
   }
 
-  const categoryButtons = document.querySelectorAll('.filter-btn');
-  const aiInfoBox = document.getElementById('aiInfoBox');
-  const vaultInfoBox = document.getElementById('vaultInfoBox');
-  const customInfoBox = document.getElementById('customInfoBox');
-  const generalInfoBox = document.getElementById('generalInfoBox');
+  // --- INITIALIZATION & EVENT LISTENERS ---
+  document.addEventListener('DOMContentLoaded', function() {
+      const categoryButtons = document.querySelectorAll('.filter-btn');
+      const aiInfoBox = document.getElementById('aiInfoBox');
+      const vaultInfoBox = document.getElementById('vaultInfoBox');
+      const customInfoBox = document.getElementById('customInfoBox');
+      const generalInfoBox = document.getElementById('generalInfoBox');
 
-  categoryButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      document.querySelector('.filter-btn.active')?.classList.remove('active');
-      button.classList.add('active');
-      const selectedCategory = button.getAttribute('data-category');
-      searchInput.value = ''; 
-      
-      if (aiInfoBox) aiInfoBox.style.display = selectedCategory === 'ai' ? 'block' : 'none';
-      if (vaultInfoBox) vaultInfoBox.style.display = selectedCategory === 'vault' ? 'block' : 'none';
-      if (customInfoBox) customInfoBox.style.display = selectedCategory === 'custom' ? 'block' : 'none';
-      if (generalInfoBox) generalInfoBox.style.display = (selectedCategory !== 'ai' && selectedCategory !== 'vault' && selectedCategory !== 'custom') ? 'block' : 'none';
-      
-      renderBeats({type: 'category', value: selectedCategory});
-    });
-  });
-  
-  searchInput.addEventListener('input', () => {
-    const searchTerm = searchInput.value.toLowerCase().trim();
-    document.querySelector('.filter-btn.active')?.classList.remove('active');
-    renderBeats({type: 'search', value: searchTerm});
-  });
-
-  // Vibe Search Modal Logic
-  const vibeBtn = document.getElementById('vibe-search-btn');
-  const vibeModal = document.getElementById('vibe-modal');
-  const vibeModalClose = document.getElementById('vibe-modal-close');
-  const vibeBubbles = document.querySelectorAll('.vibe-bubble');
-  const canvas = document.getElementById('vibe-visualizer');
-  const ctx = canvas.getContext('2d');
-  let animationFrameId;
-
-  function resizeCanvas() {
-      const container = document.getElementById('vibe-modal-content');
-      if (!container) return; // Guard clause
-      const size = Math.min(container.clientWidth, container.clientHeight);
-      canvas.width = size;
-      canvas.height = size;
-  }
-
-  function drawVisualizer() {
-      const radius = canvas.width / 3; // Base radius
-      const points = 128;
-      const centerX = canvas.width / 2;
-      const centerY = canvas.height / 2;
-      const time = Date.now() * 0.0005;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.beginPath();
-      
-      for (let i = 0; i <= points; i++) {
-          const angle = (i / points) * Math.PI * 2;
-          const wave = Math.sin(time + i * 0.5) * 10; // Wave amplitude
-          const pulse = (Math.sin(time * 2) + 1) / 2 * 15; // Pulsing amplitude
-          const currentRadius = radius + wave + pulse;
-          
-          const x = centerX + Math.cos(angle) * currentRadius;
-          const y = centerY + Math.sin(angle) * currentRadius;
-
-          if (i === 0) {
-              ctx.moveTo(x, y);
-          } else {
-              ctx.lineTo(x, y);
-          }
-      }
-      
-      const gradient = ctx.createRadialGradient(centerX, centerY, radius - 20, centerX, centerY, radius + 20);
-      gradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
-      gradient.addColorStop(0.5, 'rgba(200, 200, 255, 0.8)');
-      gradient.addColorStop(1, 'rgba(126, 87, 194, 0)');
-
-      ctx.strokeStyle = gradient;
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      ctx.shadowColor = 'rgba(200, 200, 255, 0.8)';
-      ctx.shadowBlur = 15;
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-
-
-      animationFrameId = requestAnimationFrame(drawVisualizer);
-  }
-
-
-  vibeBtn.addEventListener('click', () => {
-      vibeModal.classList.add('visible');
-      resizeCanvas();
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
-      drawVisualizer();
-  });
-
-  vibeModalClose.addEventListener('click', () => {
-      vibeModal.classList.remove('visible');
-      cancelAnimationFrame(animationFrameId);
-  });
-  
-  vibeModal.addEventListener('click', (e) => {
-      if (e.target === vibeModal) {
-          vibeModal.classList.remove('visible');
-          cancelAnimationFrame(animationFrameId);
-      }
-  });
-
-  vibeBubbles.forEach(bubble => {
-      const duration = Math.random() * 2 + 3;
-      const delay = Math.random() * 2;
-      bubble.style.animationDuration = `${duration}s`;
-      bubble.style.animationDelay = `-${delay}s`;
-
-      bubble.addEventListener('click', () => {
-          const tags = bubble.dataset.vibeTags.split(',');
-          searchInput.value = '';
+      categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
           document.querySelector('.filter-btn.active')?.classList.remove('active');
-          renderBeats({type: 'vibe', value: tags});
-          vibeModal.classList.remove('visible');
-          cancelAnimationFrame(animationFrameId);
+          button.classList.add('active');
+          const selectedCategory = button.getAttribute('data-category');
+          searchInput.value = ''; 
+          
+          if (aiInfoBox) aiInfoBox.style.display = selectedCategory === 'ai' ? 'block' : 'none';
+          if (vaultInfoBox) vaultInfoBox.style.display = selectedCategory === 'vault' ? 'block' : 'none';
+          if (customInfoBox) customInfoBox.style.display = selectedCategory === 'custom' ? 'block' : 'none';
+          if (generalInfoBox) generalInfoBox.style.display = (selectedCategory !== 'ai' && selectedCategory !== 'vault' && selectedCategory !== 'custom') ? 'block' : 'none';
+          
+          renderBeats({type: 'category', value: selectedCategory});
+        });
       });
+      
+      searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        document.querySelector('.filter-btn.active')?.classList.remove('active');
+        renderBeats({type: 'search', value: searchTerm});
+      });
+
+      // Vibe Search Modal Logic
+      const vibeBtn = document.getElementById('vibe-search-btn');
+      const vibeModal = document.getElementById('vibe-modal');
+      const vibeModalClose = document.getElementById('vibe-modal-close');
+      const vibeBubbles = document.querySelectorAll('.vibe-bubble');
+      const canvas = document.getElementById('vibe-visualizer');
+      if (canvas) {
+          const ctx = canvas.getContext('2d');
+          let animationFrameId;
+
+          function resizeCanvas() {
+              const container = document.getElementById('vibe-modal-content');
+              if (!container) return; // Guard clause
+              const size = Math.min(container.clientWidth, container.clientHeight);
+              canvas.width = size;
+              canvas.height = size;
+          }
+
+          function drawVisualizer() {
+              const radius = canvas.width / 3; // Base radius
+              const points = 128;
+              const centerX = canvas.width / 2;
+              const centerY = canvas.height / 2;
+              const time = Date.now() * 0.0005;
+
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              ctx.beginPath();
+              
+              for (let i = 0; i <= points; i++) {
+                  const angle = (i / points) * Math.PI * 2;
+                  const wave = Math.sin(time + i * 0.5) * 10; // Wave amplitude
+                  const pulse = (Math.sin(time * 2) + 1) / 2 * 15; // Pulsing amplitude
+                  const currentRadius = radius + wave + pulse;
+                  
+                  const x = centerX + Math.cos(angle) * currentRadius;
+                  const y = centerY + Math.sin(angle) * currentRadius;
+
+                  if (i === 0) {
+                      ctx.moveTo(x, y);
+                  } else {
+                      ctx.lineTo(x, y);
+                  }
+              }
+              
+              const gradient = ctx.createRadialGradient(centerX, centerY, radius - 20, centerX, centerY, radius + 20);
+              gradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
+              gradient.addColorStop(0.5, 'rgba(200, 200, 255, 0.8)');
+              gradient.addColorStop(1, 'rgba(126, 87, 194, 0)');
+
+              ctx.strokeStyle = gradient;
+              ctx.lineWidth = 2;
+              ctx.stroke();
+              ctx.shadowColor = 'rgba(200, 200, 255, 0.8)';
+              ctx.shadowBlur = 15;
+              ctx.stroke();
+              ctx.shadowBlur = 0;
+
+
+              animationFrameId = requestAnimationFrame(drawVisualizer);
+          }
+
+
+          vibeBtn.addEventListener('click', () => {
+              vibeModal.classList.add('visible');
+              resizeCanvas();
+              if (animationFrameId) cancelAnimationFrame(animationFrameId);
+              drawVisualizer();
+          });
+
+          vibeModalClose.addEventListener('click', () => {
+              vibeModal.classList.remove('visible');
+              cancelAnimationFrame(animationFrameId);
+          });
+          
+          vibeModal.addEventListener('click', (e) => {
+              if (e.target === vibeModal) {
+                  vibeModal.classList.remove('visible');
+                  cancelAnimationFrame(animationFrameId);
+              }
+          });
+          window.addEventListener('resize', resizeCanvas);
+      }
+
+
+      vibeBubbles.forEach(bubble => {
+          const duration = Math.random() * 2 + 3;
+          const delay = Math.random() * 2;
+          bubble.style.animationDuration = `${duration}s`;
+          bubble.style.animationDelay = `-${delay}s`;
+
+          bubble.addEventListener('click', () => {
+              const tags = bubble.dataset.vibeTags.split(',');
+              searchInput.value = '';
+              document.querySelector('.filter-btn.active')?.classList.remove('active');
+              renderBeats({type: 'vibe', value: tags});
+              vibeModal.classList.remove('visible');
+              if (animationFrameId) cancelAnimationFrame(animationFrameId);
+          });
+      });
+
+      // Initial Setup
+      renderBeats({type: 'category', value: 'all'});
+      setupStickyPlayer();
   });
-
-  window.addEventListener('resize', resizeCanvas);
-
-
-  renderBeats({type: 'category', value: 'all'});
-
 </script>
 </body>
 </html>
