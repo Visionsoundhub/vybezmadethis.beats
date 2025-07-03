@@ -283,6 +283,18 @@
   // --- ΔΕΔΟΜΕΝΑ ΓΙΑ ΤΑ BEATS ΣΟΥ ---
   const beatsData = [
     {
+      id: 5,
+      title: 'Marios Beat',
+      playerType: 'audio',
+      audioSrc: 'https://github.com/Visionsoundhub/vybezmadethis.beats/raw/refs/heads/main/Marios%20beat%20extended%2099BPM%20Eminor.mp3',
+      price: '80€',
+      stemsPrice: '20€',
+      status: 'available',
+      category: 'custom',
+      licenseType: 'exclusive',
+      tags: ['custom', 'melodic']
+    },
+    {
       id: 1,
       title: 'Lost In Time',
       playerType: 'soundcloud',
@@ -308,7 +320,7 @@
     },
     {
       id: 3,
-      title: 'Custom Player Demo',
+      title: 'AI Experiment #1',
       playerType: 'audio',
       audioSrc: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', // Placeholder MP3
       price: '15€',
@@ -384,8 +396,8 @@
                     <div class="actions-wrapper">
                         <button class="btn" onclick="toggleContactOptions(${beat.id})">Ζήτα το</button>
                         <div class="contact-options" id="contact-options-${beat.id}">
-                          <a href="mailto:info@visionsoundhub.gr?subject=Beat Inquiry: ${beat.title}" class="btn">Email</a>
-                          <a href="https://www.instagram.com/visionsoundhub/" target="_blank" class="btn">Instagram</a>
+                          <a href="mailto:studiovisionsound@gmail.com?subject=Beat Inquiry: ${beat.title}" class="btn">Email</a>
+                          <a href="https://www.instagram.com/visionsoundhub.gr?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="btn">Instagram</a>
                         </div>
                     </div>
                 ` : ''}
