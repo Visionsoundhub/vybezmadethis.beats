@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Beat Gallery</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Segoe+UI:wght@700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
     /* --- General Body & Layout --- */
     html, body {
@@ -38,27 +39,22 @@
       border-radius: 999px;
       border: 2px solid transparent;
       cursor: pointer;
-      color: #fff;
-      background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
+      color: #e0e0e0;
+      background: linear-gradient(145deg, #656565, #333333);
       transition: all 0.2s ease-in-out;
-      box-shadow: inset 0 0 0 rgba(255,255,255,0.2), 0 2px 4px rgba(0,0,0,0.4);
+      box-shadow: inset 0px 1px 1px rgba(255, 255, 255, 0.1), 0 2px 4px rgba(0,0,0,0.5);
     }
     .filter-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      background: linear-gradient(145deg, #777777, #444444);
     }
     .filter-btn.active {
       border-color: #fff;
-      background: linear-gradient(135deg, #7e57c2, #42a5f5);
+      color: #111;
+      background: linear-gradient(145deg, #d5d5d5, #a0a0a0);
+      box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
     }
-    /* --- Category Specific Hover Colors --- */
-    .filter-btn[data-category="trap"]:hover { background: linear-gradient(135deg, #ff1744, #ff8a65); }
-    .filter-btn[data-category="boombap"]:hover { background: linear-gradient(135deg, #00bfa5, #4db6ac); }
-    .filter-btn[data-category="latin"]:hover { background: linear-gradient(135deg, #fbc02d, #ff7043); }
-    .filter-btn[data-category="lofi"]:hover { background: linear-gradient(135deg, #5c6bc0, #7986cb); }
-    .filter-btn[data-category="custom"]:hover { background: linear-gradient(135deg, #ffd700, #ffcc33); color: #000; }
-    .filter-btn[data-category="vault"]:hover { background: linear-gradient(135deg, #888888, #bbbbbb); color: #111; }
-    .filter-btn[data-category="ai"]:hover { background: linear-gradient(135deg, #3f51b5, #00e5ff); }
 
     /* --- Info Boxes --- */
     .info-box {
@@ -81,20 +77,153 @@
       padding: 0.4rem 0.9rem;
       border-radius: 999px;
       font-size: 0.85rem;
-      background: #2a2a2a;
-      color: #fff;
+      background: linear-gradient(145deg, #555555, #2a2a2a);
+      color: #e0e0e0;
       border: none;
       cursor: pointer;
       transition: all 0.2s ease-in-out;
       text-decoration: none;
       display: inline-block;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
     }
     .btn:hover {
-      background: #444;
+      background: linear-gradient(145deg, #656565, #333333);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
+
+    /* --- Beat Cards --- */
+    .beat-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1rem;
+      gap: 1.5rem;
+    }
+    .beat-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 480px; /* Increased width for side-by-side layout */
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .beat-card:hover {
+      transform: translateY(-5px);
+    }
+    .beat-title {
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #fff;
+      text-align: left; /* Changed from 'center' to 'left' */
+    }
+    
+    /* --- New Side-by-Side Layout --- */
+    .card-main-content {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    .player-container {
+        flex: 3; /* Player takes more space */
+    }
+    .info-and-actions {
+        flex: 1; /* Info/actions take less space */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .beat-player iframe {
+      border: none;
+      width: 100%;
+      height: 120px;
+      border-radius: 8px;
+    }
+    .beat-price {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #00ff99;
+    }
+    .beat-price.sold {
+      color: #ff5555;
+      text-decoration: none;
+    }
+    .actions-wrapper {
+        position: relative;
+    }
+    .contact-options {
+        position: absolute;
+        bottom: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: #333;
+        border: 1px solid #555;
+        padding: 0.5rem;
+        border-radius: 8px;
+        z-index: 10;
+        display: none;
+        flex-direction: column;
+        gap: 0.5rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+    .contact-options .btn {
+        margin: 0;
+    }
+    
+    /* --- Custom Audio Player --- */
+    .custom-audio-player {
+        display: flex;
+        align-items: center;
+        background: #222;
+        border-radius: 50px;
+        padding: 5px 10px;
+        border: 1px solid #444;
+    }
+    .play-pause-btn {
+        background: linear-gradient(145deg, #d5d5d5, #a0a0a0);
+        color: #111;
+        border: none;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
+        flex-shrink: 0;
+    }
+    .progress-bar-container {
+        flex-grow: 1;
+        background: #444;
+        border-radius: 10px;
+        height: 8px;
+        cursor: pointer;
+        overflow: hidden;
+    }
+    .progress-bar {
+        background: linear-gradient(90deg, #7e57c2, #42a5f5);
+        width: 0%;
+        height: 100%;
+        border-radius: 10px;
+    }
+    .time-display {
+        font-size: 0.75rem;
+        color: #aaa;
+        margin-left: 10px;
+        min-width: 40px;
+        text-align: right;
+    }
+
   </style>
 </head>
 <body>
@@ -148,30 +277,212 @@
 </div>
 
 <!-- This is where the beats will be rendered -->
-<div id="beatGrid"></div>
+<div class="beat-grid" id="beatGrid"></div>
 
 <script>
-  // --- Toggle Functions for Info Boxes ---
+  // --- ΔΕΔΟΜΕΝΑ ΓΙΑ ΤΑ BEATS ΣΟΥ ---
+  const beatsData = [
+    {
+      id: 1,
+      title: 'Lost In Time',
+      playerType: 'soundcloud',
+      audioSrc: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1865955030&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true',
+      price: '80€',
+      stemsPrice: '20€',
+      status: 'available',
+      category: 'boombap',
+      licenseType: 'exclusive',
+      tags: ['dark', '90s', 'classic', 'storytelling']
+    },
+    {
+      id: 2,
+      title: 'Jersey Symphony',
+      playerType: 'soundcloud',
+      audioSrc: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1865954646&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true',
+      price: '80€',
+      stemsPrice: '20€',
+      status: 'available',
+      category: 'trap',
+      licenseType: 'exclusive',
+      tags: ['orchestral', 'drill', 'epic']
+    },
+    {
+      id: 3,
+      title: 'Custom Player Demo',
+      playerType: 'audio',
+      audioSrc: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', // Placeholder MP3
+      price: '15€',
+      stemsPrice: null,
+      status: 'available',
+      category: 'ai',
+      licenseType: 'leasing',
+      tags: ['experimental', 'electronic', 'future']
+    },
+     {
+      id: 4,
+      title: 'Old Vault Sketch',
+      playerType: 'audio',
+      audioSrc: '', // No audio source for this example
+      price: '30€',
+      stemsPrice: null,
+      status: 'sold',
+      category: 'vault',
+      licenseType: 'exclusive',
+      tags: ['raw', 'draft', 'lofi-sketch']
+    }
+  ];
+
+  // --- CORE LOGIC ---
+
+  const beatGrid = document.getElementById('beatGrid');
+  let currentlyPlayingAudio = null;
+
+  function renderBeats(category = 'all') {
+    if (!beatGrid) return;
+    beatGrid.innerHTML = '';
+
+    const filteredBeats = category === 'all'
+      ? beatsData.filter(beat => beat.category !== 'ai')
+      : beatsData.filter(beat => beat.category === category);
+
+    if (filteredBeats.length === 0) {
+        beatGrid.innerHTML = '<p style="color: #888;">Δεν υπάρχουν διαθέσιμα beats σε αυτή την κατηγορία.</p>';
+        return;
+    }
+
+    filteredBeats.forEach(beat => {
+      const card = document.createElement('div');
+      card.className = 'beat-card';
+
+      let playerHtml = '';
+      if (beat.playerType === 'soundcloud' && beat.audioSrc) {
+        playerHtml = `<div class="player-container"><iframe src="${beat.audioSrc}" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>`;
+      } else if (beat.playerType === 'audio' && beat.audioSrc) {
+        playerHtml = `
+          <div class="player-container custom-audio-player" id="player-${beat.id}">
+            <button class="play-pause-btn"><i class="fas fa-play"></i></button>
+            <div class="progress-bar-container">
+              <div class="progress-bar"></div>
+            </div>
+            <div class="time-display">0:00</div>
+            <audio class="audio-element" src="${beat.audioSrc}" preload="metadata"></audio>
+          </div>
+        `;
+      } else {
+        playerHtml = `<div class="player-container"><p style="color: #888; font-size: 0.8rem;">Το Preview δεν είναι διαθέσιμο</p></div>`;
+      }
+
+      card.innerHTML = `
+        <div class="beat-title">${beat.title}</div>
+        <div class="card-main-content">
+            ${playerHtml}
+            <div class="info-and-actions">
+                <div class="beat-price ${beat.status === 'sold' ? 'sold' : ''}">
+                    ${beat.status === 'sold' ? 'SOLD' : beat.price}
+                </div>
+                ${beat.status !== 'sold' ? `
+                    <div class="actions-wrapper">
+                        <button class="btn" onclick="toggleContactOptions(${beat.id})">Ζήτα το</button>
+                        <div class="contact-options" id="contact-options-${beat.id}">
+                          <a href="mailto:info@visionsoundhub.gr?subject=Beat Inquiry: ${beat.title}" class="btn">Email</a>
+                          <a href="https://www.instagram.com/visionsoundhub/" target="_blank" class="btn">Instagram</a>
+                        </div>
+                    </div>
+                ` : ''}
+            </div>
+        </div>
+      `;
+      beatGrid.appendChild(card);
+    });
+    
+    setupCustomPlayers();
+  }
+  
+  function setupCustomPlayers() {
+    document.querySelectorAll('.custom-audio-player').forEach(player => {
+        const audio = player.querySelector('.audio-element');
+        const playPauseBtn = player.querySelector('.play-pause-btn');
+        const playIcon = playPauseBtn.querySelector('i');
+        const progressBar = player.querySelector('.progress-bar');
+        const progressBarContainer = player.querySelector('.progress-bar-container');
+        const timeDisplay = player.querySelector('.time-display');
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        playPauseBtn.addEventListener('click', () => {
+            const isPlaying = audio.currentTime > 0 && !audio.paused && !audio.ended;
+            if (isPlaying) {
+                audio.pause();
+            } else {
+                if (currentlyPlayingAudio && currentlyPlayingAudio !== audio) {
+                    currentlyPlayingAudio.pause();
+                }
+                currentlyPlayingAudio = audio;
+                audio.play();
+            }
+        });
+
+        audio.addEventListener('play', () => {
+            playIcon.className = 'fas fa-pause';
+        });
+
+        audio.addEventListener('pause', () => {
+            playIcon.className = 'fas fa-play';
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const { currentTime, duration } = audio;
+            const progressPercent = (currentTime / duration) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+            if (duration) {
+                timeDisplay.textContent = `${formatTime(currentTime)}`;
+            }
+        });
+        
+        audio.addEventListener('loadedmetadata', () => {
+             if (audio.duration) {
+                timeDisplay.textContent = `0:00`;
+            }
+        });
+
+        progressBarContainer.addEventListener('click', (e) => {
+            const width = progressBarContainer.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+            audio.currentTime = (clickX / width) * duration;
+        });
+    });
+  }
+
+  function toggleContactOptions(beatId) {
+      const currentOptions = document.getElementById(`contact-options-${beatId}`);
+      if (!currentOptions) return;
+      const isVisible = currentOptions.style.display === 'flex';
+      document.querySelectorAll('.contact-options').forEach(el => {
+          el.style.display = 'none';
+      });
+      currentOptions.style.display = isVisible ? 'none' : 'flex';
+  }
+
+  // --- INITIALIZATION & EVENT LISTENERS ---
+
   function toggleAiDescription() {
     const desc = document.getElementById("aiDescription");
-    if (desc) {
-      desc.style.display = desc.style.display === "none" ? "block" : "none";
-    }
+    if (desc) desc.style.display = desc.style.display === "none" ? "block" : "none";
   }
   function toggleVaultDescription() {
     const desc = document.getElementById("vaultDescription");
-    if (desc) {
-      desc.style.display = desc.style.display === "none" ? "block" : "none";
-    }
+    if (desc) desc.style.display = desc.style.display === "none" ? "block" : "none";
   }
   function toggleGeneralInfo() {
     const desc = document.getElementById("generalInfo");
-     if (desc) {
-      desc.style.display = desc.style.display === "none" ? "block" : "none";
-    }
+    if (desc) desc.style.display = desc.style.display === "none" ? "block" : "none";
   }
 
-  // --- Logic for showing/hiding info boxes based on category ---
   const categoryButtons = document.querySelectorAll('.filter-btn');
   const aiInfoBox = document.getElementById('aiInfoBox');
   const vaultInfoBox = document.getElementById('vaultInfoBox');
@@ -179,27 +490,17 @@
 
   categoryButtons.forEach(button => {
     button.addEventListener('click', () => {
-      // Handle active button state
       document.querySelector('.filter-btn.active')?.classList.remove('active');
       button.classList.add('active');
-      
       const selectedCategory = button.getAttribute('data-category');
-
-      // Show/Hide info boxes based on the selected category
-      if (aiInfoBox) {
-        aiInfoBox.style.display = selectedCategory === 'ai' ? 'block' : 'none';
-      }
-      if (vaultInfoBox) {
-        vaultInfoBox.style.display = selectedCategory === 'vault' ? 'block' : 'none';
-      }
-      if (generalInfoBox) {
-        // This box is now always visible
-        generalInfoBox.style.display = 'block';
-      }
-      
-      // TODO: Add renderBeats(selectedCategory) call here later
+      if (aiInfoBox) aiInfoBox.style.display = selectedCategory === 'ai' ? 'block' : 'none';
+      if (vaultInfoBox) vaultInfoBox.style.display = selectedCategory === 'vault' ? 'block' : "none";
+      if (generalInfoBox) generalInfoBox.style.display = 'block';
+      renderBeats(selectedCategory);
     });
   });
+
+  renderBeats('all');
 
 </script>
 </body>
