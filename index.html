@@ -8,6 +8,9 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
     /* --- General Body & Layout --- */
+    * {
+        box-sizing: border-box;
+    }
     html, body {
       margin: 0;
       padding: 0;
@@ -303,9 +306,8 @@
         max-width: 600px;
         max-height: 600px;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        justify-content: center; /* Center content vertically */
+        align-items: center; /* Center content horizontally */
         transform: scale(0.9);
         transition: transform 0.3s ease;
     }
@@ -316,7 +318,14 @@
         transform: translate(-50%, -50%);
         width: 100%;
         height: 100%;
-        z-index: -1;
+        z-index: 0;
+    }
+    .vibe-text-wrapper {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
     .vibe-modal-overlay.visible .vibe-modal-content {
         transform: scale(1);
@@ -369,6 +378,7 @@
         justify-content: center;
         align-items: center;
         line-height: 1;
+        z-index: 2;
     }
     .vibe-modal-close:hover {
         transform: rotate(90deg);
@@ -382,34 +392,20 @@
             transform: translateY(-10px);
         }
     }
-    @keyframes pulse-border {
-        0% {
-            box-shadow: 0 0 20px rgba(126, 87, 194, 0.4);
-            border-color: rgba(126, 87, 194, 0.7);
-        }
-        50% {
-            box-shadow: 0 0 35px rgba(66, 165, 245, 0.6);
-            border-color: rgba(66, 165, 245, 1);
-        }
-        100% {
-            box-shadow: 0 0 20px rgba(126, 87, 194, 0.4);
-            border-color: rgba(126, 87, 194, 0.7);
-        }
-    }
-
+    
     /* Mobile-specific adjustments */
     @media (max-width: 600px) {
         .vibe-modal-content {
-            padding: 1rem; /* Less padding on small screens */
+            padding: 1rem;
         }
         .vibe-modal-content h2 {
-            font-size: 1.5rem; /* Smaller title */
+            font-size: 1.5rem;
         }
         .vibe-modal-content p {
-            font-size: 0.9rem; /* Smaller paragraph */
+            font-size: 0.9rem;
         }
         .vibe-bubble {
-            padding: 0.6rem 1.2rem; /* Smaller bubbles */
+            padding: 0.6rem 1.2rem;
             font-size: 0.9rem;
         }
         .vibe-modal-close {
@@ -426,6 +422,7 @@
             width: 100%;
             flex-direction: row;
             justify-content: space-between;
+            align-items: center;
         }
     }
 
@@ -476,16 +473,18 @@
 <div class="vibe-modal-overlay" id="vibe-modal">
     <div class="vibe-modal-content" id="vibe-modal-content">
         <canvas id="vibe-visualizer"></canvas>
-        <span class="vibe-modal-close" id="vibe-modal-close">&times;</span>
-        <h2>Πώς νιώθεις σήμερα;</h2>
-        <p>Διάλεξε ένα vibe για να βρεις το κατάλληλο beat.</p>
-        <div class="vibe-bubbles">
-            <div class="vibe-bubble" data-vibe-tags="love,romantic,smooth">Ερωτευμένος</div>
-            <div class="vibe-bubble" data-vibe-tags="sad,emotional,dark,melancholic">Μελαγχολικός</div>
-            <div class="vibe-bubble" data-vibe-tags="aggressive,hard,drill">Θέλω να χώσω μπάρες</div>
-            <div class="vibe-bubble" data-vibe-tags="chill,lofi,relax">Για χαλάρωση</div>
-            <div class="vibe-bubble" data-vibe-tags="party,upbeat,dancehall">Για πάρτι</div>
-            <div class="vibe-bubble" data-vibe-tags="epic,cinematic,storytelling">Κινηματογραφικό</div>
+        <div class="vibe-text-wrapper">
+            <span class="vibe-modal-close" id="vibe-modal-close">&times;</span>
+            <h2>Πώς νιώθεις σήμερα;</h2>
+            <p>Διάλεξε ένα vibe για να βρεις το κατάλληλο beat.</p>
+            <div class="vibe-bubbles">
+                <div class="vibe-bubble" data-vibe-tags="love,romantic,smooth">Ερωτευμένος</div>
+                <div class="vibe-bubble" data-vibe-tags="sad,emotional,dark,melancholic">Μελαγχολικός</div>
+                <div class="vibe-bubble" data-vibe-tags="aggressive,hard,drill">Θέλω να χώσω μπάρες</div>
+                <div class="vibe-bubble" data-vibe-tags="chill,lofi,relax">Για χαλάρωση</div>
+                <div class="vibe-bubble" data-vibe-tags="party,upbeat,dancehall">Για πάρτι</div>
+                <div class="vibe-bubble" data-vibe-tags="epic,cinematic,storytelling">Κινηματογραφικό</div>
+            </div>
         </div>
     </div>
 </div>
@@ -862,6 +861,3 @@
 </script>
 </body>
 </html>
-```
-
-Έκανα τις αλλαγές που ζήτησες. Τώρα το Vibe Search έχει το εντυπωσιακό, κυματοειδές animation που ήθελ
