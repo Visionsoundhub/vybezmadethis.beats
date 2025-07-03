@@ -22,6 +22,56 @@
       color: #eee;
     }
 
+    /* --- Top Bar (Search & Vibe) --- */
+    .top-bar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    .search-container {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+    }
+    #search-input {
+      width: 100%;
+      max-width: 480px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      border: 1px solid #555;
+      background-color: #222;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    #search-input::placeholder {
+      color: #888;
+    }
+    #search-input:focus {
+      border-color: #7e57c2;
+      box-shadow: 0 0 15px rgba(126, 87, 194, 0.5);
+    }
+    #vibe-search-btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        background: linear-gradient(145deg, #7e57c2, #42a5f5);
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+        font-family: 'Segoe UI', sans-serif;
+        transition: all 0.3s ease;
+    }
+    #vibe-search-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(126, 87, 194, 0.7);
+    }
+
+
     /* --- Category Filters --- */
     .category-filter {
       display: flex;
@@ -29,6 +79,7 @@
       justify-content: center;
       gap: 0.5rem;
       padding: 1rem;
+      padding-top: 0;
     }
     .filter-btn {
       font-family: 'Segoe UI', sans-serif;
@@ -106,7 +157,7 @@
       border-radius: 12px;
       padding: 1.5rem;
       width: 100%;
-      max-width: 480px; /* Increased width for side-by-side layout */
+      max-width: 480px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
       transition: transform 0.3s ease;
       display: flex;
@@ -121,20 +172,19 @@
       font-size: 1.2rem;
       margin-bottom: 1rem;
       color: #fff;
-      text-align: left; /* Changed from 'center' to 'left' */
+      text-align: left;
     }
     
-    /* --- New Side-by-Side Layout --- */
     .card-main-content {
         display: flex;
         align-items: center;
         gap: 1rem;
     }
     .player-container {
-        flex: 3; /* Player takes more space */
+        flex: 3;
     }
     .info-and-actions {
-        flex: 1; /* Info/actions take less space */
+        flex: 1;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -224,9 +274,125 @@
         text-align: right;
     }
 
+    /* --- Vibe Search Modal --- */
+    .vibe-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        backdrop-filter: blur(10px);
+        display: none; /* Hidden by default */
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .vibe-modal-overlay.visible {
+        display: flex;
+        opacity: 1;
+    }
+    .vibe-modal-content {
+        position: relative;
+        background: transparent;
+        text-align: center;
+        width: 90vw;
+        height: 90vw;
+        max-width: 600px; /* Increased size */
+        max-height: 600px; /* Increased size */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+    }
+     #vibe-visualizer {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+    .vibe-modal-overlay.visible .vibe-modal-content {
+        transform: scale(1);
+    }
+    .vibe-modal-content h2 {
+        margin-top: 0;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    .vibe-bubbles {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    .vibe-bubble {
+        padding: 0.8rem 1.5rem;
+        border-radius: 50px;
+        border: 1px solid #555;
+        background: #333;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        animation-name: float;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        animation-timing-function: ease-in-out;
+    }
+    .vibe-bubble:hover {
+        background: #7e57c2;
+        transform: scale(1.1) translateY(-5px);
+        border-color: #7e57c2;
+        animation-play-state: paused;
+    }
+    .vibe-modal-close {
+        position: absolute;
+        top: 0px; 
+        right: 0px;
+        font-size: 2.5rem;
+        color: #fff;
+        cursor: pointer;
+        font-weight: 300;
+        transition: transform 0.3s ease;
+        background: rgba(0,0,0,0.5);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        line-height: 1;
+    }
+    .vibe-modal-close:hover {
+        transform: rotate(90deg);
+    }
+    
+    @keyframes float {
+        0% {
+            transform: translateY(0px);
+        }
+        100% {
+            transform: translateY(-10px);
+        }
+    }
   </style>
 </head>
 <body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="search-container">
+    <input type="text" id="search-input" placeholder="Αναζήτηση με τίτλο ή tag...">
+  </div>
+  <button id="vibe-search-btn">Vibe Search</button>
+</div>
 
 <!-- Category Filter Buttons -->
 <div class="category-filter">
@@ -240,41 +406,43 @@
   <button class="filter-btn" data-category="ai">AI Access</button>
 </div>
 
-<!-- AI Access Info Box (Initially Hidden) -->
+<!-- Info Boxes... -->
 <div class="info-box" id="aiInfoBox" style="display:none;">
   <button onclick="toggleAiDescription()" class="btn">Τι είναι το AI Access;</button>
-  <div id="aiDescription" style="display:none; margin-top: 1rem;">
-    Τα beats στην κατηγορία AI Access είναι δημιουργημένα μερικώς από εργαλεία τεχνητής νοημοσύνης. Η δομή και η μίξη έχει γίνει χειροποίητα από τον Vybezmadethis στο Vision Sound Studio.
-    <br><br>
-    Αυτή η κατηγορία αφορά αποκλειστικά leasing χρήση: δηλαδή μπορείς να χρησιμοποιήσεις το beat για προσωπικά ή εμπορικά projects χωρίς να αποκτήσεις την αποκλειστική του κυριότητα. Μπορεί να το χρησιμοποιούν και άλλοι, αλλά η χρήση σου είναι νόμιμη και επιτρεπτή για δημιουργία περιεχομένου.
-  </div>
+  <div id="aiDescription" style="display:none; margin-top: 1rem;">Τα beats στην κατηγορία AI Access είναι δημιουργημένα μερικώς από εργαλεία τεχνητής νοημοσύνης. Η δομή και η μίξη έχει γίνει χειροποίητα από τον Vybezmadethis στο Vision Sound Studio.<br><br>Αυτή η κατηγορία αφορά αποκλειστικά leasing χρήση: δηλαδή μπορείς να χρησιμοποιήσεις το beat για προσωπικά ή εμπορικά projects χωρίς να αποκτήσεις την αποκλειστική του κυριότητα. Μπορεί να το χρησιμοποιούν και άλλοι, αλλά η χρήση σου είναι νόμιμη και επιτρεπτή για δημιουργία περιεχομένου.</div>
 </div>
-
-<!-- Vault Beats Info Box (Initially Hidden) -->
 <div class="info-box" id="vaultInfoBox" style="display: none;">
   <button onclick="toggleVaultDescription()" class="btn">Τι είναι τα Vault Beats;</button>
-  <div id="vaultDescription" style="display:none; margin-top: 1rem;">
-    Τα Vault Beats είναι beats που δεν μπορούν πλέον να επεξεργαστούν περαιτέρω είτε επειδή έχουν χαθεί τα αρχικά projects είτε γιατί ήταν πειραματικά ή πρώιμα drafts.
-    <br><br>
-    Παρότι δεν είναι διαθέσιμα σε μορφή stems, και δεν υπάρχουν projects,
-    έχει γίνει επεξεργασία πάνω τους και διατίθενται σε πιο προσιτή τιμή και διατηρούν την ενέργεια και το vibe τους για όσους ψάχνουν ιδιαίτερους ήχους με low budget.
-  </div>
+  <div id="vaultDescription" style="display:none; margin-top: 1rem;">Τα Vault Beats είναι beats που δεν μπορούν πλέον να επεξεργαστούν περαιτέρω είτε επειδή έχουν χαθεί τα αρχικά projects είτε γιατί ήταν πειραματικά ή πρώιμα drafts.<br><br>Παρότι δεν είναι διαθέσιμα σε μορφή stems, και δεν υπάρχουν projects, έχει γίνει επεξεργασία πάνω τους και διατίθενται σε πιο προσιτή τιμή και διατηρούν την ενέργεια και το vibe τους για όσους ψάχνουν ιδιαίτερους ήχους με low budget.</div>
 </div>
-
-<!-- General Info Box (Always Visible) -->
+<div class="info-box" id="customInfoBox" style="display: none;">
+    <p>Εδώ θα βρείτε δείγματα από custom παραγωγές που έχουν γίνει για άλλους καλλιτέχνες.</p>
+    <p>Αν θέλεις το δικό σου μοναδικό beat, στείλε email στο <a href="mailto:studiovisionsound@gmail.com" style="color: #7e57c2;">studiovisionsound@gmail.com</a> με τις ιδέες σου ή επικοινώνησε στο <a href="https://www.instagram.com/visionsoundhub.gr" target="_blank" style="color: #7e57c2;">Instagram</a>.</p>
+    <p style="margin-top: 1rem; font-weight: bold;">Η διαδικασία για custom beat ξεκινά από 100€, με την τελική τιμή να διαμορφώνεται ανάλογα με την πολυπλοκότητα.</p>
+</div>
 <div class="info-box" id="generalInfoBox" style="display: block;">
   <button onclick="toggleGeneralInfo()" class="btn">Χρήσιμες πληροφορίες</button>
-  <div id="generalInfo" style="display:none; margin-top: 1rem;">
-    Όλα τα beats (εκτός από την κατηγορία AI Access) δεν διατίθενται με leasing.
-    Οι αναγραφόμενες τιμές αφορούν την αγορά του beat σε μορφή MP3 και WAV.
-    <br><br>
-    Για παράδοση των stems, υπάρχει επιπλέον χρέωση (20€).
-    <br><br>
-    Όλα τα beats συνοδεύονται από σύντομο voice tag στην αρχή, ως στοιχείο branding του παραγωγού.
-    <br><br>
-    Ο αγοραστής αποκτά αποκλειστικά δικαιώματα χρήσης για τη συγκεκριμένη δημιουργία όχι την πλήρη κυριότητα. Ο δημιουργός μπορεί να το χρησιμοποιήσει σε δικά του projects (όπως instrumental ή release στις πλατφόρμες) αλλά δεν επιτρέπεται να το μεταπωλήσει σε άλλον καλλιτέχνη.
-  </div>
+  <div id="generalInfo" style="display:none; margin-top: 1rem;">Όλα τα beats (εκτός από την κατηγορία AI Access) δεν διατίθενται με leasing.<br>Οι αναγραφόμενες τιμές αφορούν την αγορά του beat σε μορφή MP3 και WAV.<br><br>Για παράδοση των stems, υπάρχει επιπλέον χρέωση (20€).<br><br>Όλα τα beats συνοδεύονται από σύντομο voice tag στην αρχή, ως στοιχείο branding του παραγωγού.<br><br>Ο αγοραστής αποκτά αποκλειστικά δικαιώματα χρήσης για τη συγκεκριμένη δημιουργία όχι την πλήρη κυριότητα. Ο δημιουργός μπορεί να το χρησιμοποιήσει σε δικά του projects (όπως instrumental ή release στις πλατφόρμες) αλλά δεν επιτρέπεται να το μεταπωλήσει σε άλλον καλλιτέχνη.</div>
 </div>
+
+<!-- Vibe Search Modal -->
+<div class="vibe-modal-overlay" id="vibe-modal">
+    <div class="vibe-modal-content" id="vibe-modal-content">
+        <canvas id="vibe-visualizer"></canvas>
+        <span class="vibe-modal-close" id="vibe-modal-close">&times;</span>
+        <h2>Πώς νιώθεις σήμερα;</h2>
+        <p>Διάλεξε ένα vibe για να βρεις το κατάλληλο beat.</p>
+        <div class="vibe-bubbles">
+            <div class="vibe-bubble" data-vibe-tags="love,romantic,smooth">Ερωτευμένος</div>
+            <div class="vibe-bubble" data-vibe-tags="sad,emotional,dark,melancholic">Μελαγχολικός</div>
+            <div class="vibe-bubble" data-vibe-tags="aggressive,hard,drill">Θέλω να χώσω μπάρες</div>
+            <div class="vibe-bubble" data-vibe-tags="chill,lofi,relax">Για χαλάρωση</div>
+            <div class="vibe-bubble" data-vibe-tags="party,upbeat,dancehall">Για πάρτι</div>
+            <div class="vibe-bubble" data-vibe-tags="epic,cinematic,storytelling">Κινηματογραφικό</div>
+        </div>
+    </div>
+</div>
+
 
 <!-- This is where the beats will be rendered -->
 <div class="beat-grid" id="beatGrid"></div>
@@ -284,39 +452,15 @@
   const beatsData = [
     {
       id: 5,
-      title: 'Marios Beat',
+      title: 'Marios Beat (Custom Sample)',
       playerType: 'audio',
       audioSrc: 'https://github.com/Visionsoundhub/vybezmadethis.beats/raw/refs/heads/main/Marios%20beat%20extended%2099BPM%20Eminor.mp3',
-      price: '80€',
-      stemsPrice: '20€',
+      price: null, // No price for custom samples
+      stemsPrice: null,
       status: 'available',
       category: 'custom',
       licenseType: 'exclusive',
-      tags: ['custom', 'melodic']
-    },
-    {
-      id: 1,
-      title: 'Lost In Time',
-      playerType: 'soundcloud',
-      audioSrc: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1865955030&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true',
-      price: '80€',
-      stemsPrice: '20€',
-      status: 'available',
-      category: 'boombap',
-      licenseType: 'exclusive',
-      tags: ['dark', '90s', 'classic', 'storytelling']
-    },
-    {
-      id: 2,
-      title: 'Jersey Symphony',
-      playerType: 'soundcloud',
-      audioSrc: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1865954646&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true',
-      price: '80€',
-      stemsPrice: '20€',
-      status: 'available',
-      category: 'trap',
-      licenseType: 'exclusive',
-      tags: ['orchestral', 'drill', 'epic']
+      tags: ['custom', 'melodic', 'emotional', 'sad']
     },
     {
       id: 3,
@@ -341,24 +485,65 @@
       category: 'vault',
       licenseType: 'exclusive',
       tags: ['raw', 'draft', 'lofi-sketch']
+    },
+    {
+      id: 6,
+      title: 'Fire Bars',
+      playerType: 'audio',
+      audioSrc: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+      price: '80€',
+      stemsPrice: '20€',
+      status: 'available',
+      category: 'trap',
+      licenseType: 'exclusive',
+      tags: ['aggressive', 'hard', 'drill']
+    },
+    {
+      id: 7,
+      title: 'Love Sunset',
+      playerType: 'audio',
+      audioSrc: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+      price: '80€',
+      stemsPrice: '20€',
+      status: 'available',
+      category: 'lofi',
+      licenseType: 'exclusive',
+      tags: ['love', 'romantic', 'smooth', 'chill']
     }
   ];
 
   // --- CORE LOGIC ---
 
   const beatGrid = document.getElementById('beatGrid');
+  const searchInput = document.getElementById('search-input');
   let currentlyPlayingAudio = null;
 
-  function renderBeats(category = 'all') {
+  function renderBeats(filter) {
     if (!beatGrid) return;
     beatGrid.innerHTML = '';
 
-    const filteredBeats = category === 'all'
-      ? beatsData.filter(beat => beat.category !== 'ai')
-      : beatsData.filter(beat => beat.category === category);
+    let filteredBeats = beatsData;
+
+    if (filter.type === 'category') {
+        filteredBeats = filter.value === 'all'
+            ? beatsData.filter(beat => beat.category !== 'ai' && beat.category !== 'custom')
+            : beatsData.filter(beat => beat.category === filter.value);
+    }
+    if (filter.type === 'search') {
+        filteredBeats = beatsData.filter(beat => {
+            const titleMatch = beat.title.toLowerCase().includes(filter.value);
+            const tagMatch = beat.tags.some(tag => tag.toLowerCase().includes(filter.value));
+            return titleMatch || tagMatch;
+        });
+    }
+    if (filter.type === 'vibe') {
+        filteredBeats = beatsData.filter(beat => 
+            beat.tags.some(tag => filter.value.includes(tag))
+        );
+    }
 
     if (filteredBeats.length === 0) {
-        beatGrid.innerHTML = '<p style="color: #888;">Δεν υπάρχουν διαθέσιμα beats σε αυτή την κατηγορία.</p>';
+        beatGrid.innerHTML = '<p style="color: #888;">Δεν βρέθηκαν beats που να ταιριάζουν με την αναζήτησή σας.</p>';
         return;
     }
 
@@ -384,14 +569,17 @@
         playerHtml = `<div class="player-container"><p style="color: #888; font-size: 0.8rem;">Το Preview δεν είναι διαθέσιμο</p></div>`;
       }
 
+      const priceHtml = beat.price ? `
+        <div class="beat-price ${beat.status === 'sold' ? 'sold' : ''}">
+            ${beat.status === 'sold' ? 'SOLD' : beat.price}
+        </div>` : '';
+
       card.innerHTML = `
         <div class="beat-title">${beat.title}</div>
         <div class="card-main-content">
             ${playerHtml}
             <div class="info-and-actions">
-                <div class="beat-price ${beat.status === 'sold' ? 'sold' : ''}">
-                    ${beat.status === 'sold' ? 'SOLD' : beat.price}
-                </div>
+                ${priceHtml}
                 ${beat.status !== 'sold' ? `
                     <div class="actions-wrapper">
                         <button class="btn" onclick="toggleContactOptions(${beat.id})">Ζήτα το</button>
@@ -498,6 +686,7 @@
   const categoryButtons = document.querySelectorAll('.filter-btn');
   const aiInfoBox = document.getElementById('aiInfoBox');
   const vaultInfoBox = document.getElementById('vaultInfoBox');
+  const customInfoBox = document.getElementById('customInfoBox');
   const generalInfoBox = document.getElementById('generalInfoBox');
 
   categoryButtons.forEach(button => {
@@ -505,14 +694,123 @@
       document.querySelector('.filter-btn.active')?.classList.remove('active');
       button.classList.add('active');
       const selectedCategory = button.getAttribute('data-category');
+      searchInput.value = ''; 
+      
       if (aiInfoBox) aiInfoBox.style.display = selectedCategory === 'ai' ? 'block' : 'none';
-      if (vaultInfoBox) vaultInfoBox.style.display = selectedCategory === 'vault' ? 'block' : "none";
-      if (generalInfoBox) generalInfoBox.style.display = 'block';
-      renderBeats(selectedCategory);
+      if (vaultInfoBox) vaultInfoBox.style.display = selectedCategory === 'vault' ? 'block' : 'none';
+      if (customInfoBox) customInfoBox.style.display = selectedCategory === 'custom' ? 'block' : 'none';
+      if (generalInfoBox) generalInfoBox.style.display = (selectedCategory !== 'ai' && selectedCategory !== 'vault' && selectedCategory !== 'custom') ? 'block' : 'none';
+      
+      renderBeats({type: 'category', value: selectedCategory});
     });
   });
+  
+  searchInput.addEventListener('input', () => {
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    document.querySelector('.filter-btn.active')?.classList.remove('active');
+    renderBeats({type: 'search', value: searchTerm});
+  });
 
-  renderBeats('all');
+  // Vibe Search Modal Logic
+  const vibeBtn = document.getElementById('vibe-search-btn');
+  const vibeModal = document.getElementById('vibe-modal');
+  const vibeModalClose = document.getElementById('vibe-modal-close');
+  const vibeBubbles = document.querySelectorAll('.vibe-bubble');
+  const canvas = document.getElementById('vibe-visualizer');
+  const ctx = canvas.getContext('2d');
+  let animationFrameId;
+
+  function resizeCanvas() {
+      const container = document.getElementById('vibe-modal-content');
+      if (!container) return; // Guard clause
+      const size = Math.min(container.clientWidth, container.clientHeight);
+      canvas.width = size;
+      canvas.height = size;
+  }
+
+  function drawVisualizer() {
+      const radius = canvas.width / 3; // Base radius
+      const points = 128;
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const time = Date.now() * 0.0005;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      
+      for (let i = 0; i <= points; i++) {
+          const angle = (i / points) * Math.PI * 2;
+          const wave = Math.sin(time + i * 0.5) * 10; // Wave amplitude
+          const pulse = (Math.sin(time * 2) + 1) / 2 * 15; // Pulsing amplitude
+          const currentRadius = radius + wave + pulse;
+          
+          const x = centerX + Math.cos(angle) * currentRadius;
+          const y = centerY + Math.sin(angle) * currentRadius;
+
+          if (i === 0) {
+              ctx.moveTo(x, y);
+          } else {
+              ctx.lineTo(x, y);
+          }
+      }
+      
+      const gradient = ctx.createRadialGradient(centerX, centerY, radius - 20, centerX, centerY, radius + 20);
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
+      gradient.addColorStop(0.5, 'rgba(200, 200, 255, 0.8)');
+      gradient.addColorStop(1, 'rgba(126, 87, 194, 0)');
+
+      ctx.strokeStyle = gradient;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.shadowColor = 'rgba(200, 200, 255, 0.8)';
+      ctx.shadowBlur = 15;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+
+      animationFrameId = requestAnimationFrame(drawVisualizer);
+  }
+
+
+  vibeBtn.addEventListener('click', () => {
+      vibeModal.classList.add('visible');
+      resizeCanvas();
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      drawVisualizer();
+  });
+
+  vibeModalClose.addEventListener('click', () => {
+      vibeModal.classList.remove('visible');
+      cancelAnimationFrame(animationFrameId);
+  });
+  
+  vibeModal.addEventListener('click', (e) => {
+      if (e.target === vibeModal) {
+          vibeModal.classList.remove('visible');
+          cancelAnimationFrame(animationFrameId);
+      }
+  });
+
+  vibeBubbles.forEach(bubble => {
+      const duration = Math.random() * 2 + 3;
+      const delay = Math.random() * 2;
+      bubble.style.animationDuration = `${duration}s`;
+      bubble.style.animationDelay = `-${delay}s`;
+
+      bubble.addEventListener('click', () => {
+          const tags = bubble.dataset.vibeTags.split(',');
+          searchInput.value = '';
+          document.querySelector('.filter-btn.active')?.classList.remove('active');
+          renderBeats({type: 'vibe', value: tags});
+          vibeModal.classList.remove('visible');
+          cancelAnimationFrame(animationFrameId);
+      });
+  });
+
+  window.addEventListener('resize', resizeCanvas);
+
+
+  renderBeats({type: 'category', value: 'all'});
 
 </script>
 </body>
